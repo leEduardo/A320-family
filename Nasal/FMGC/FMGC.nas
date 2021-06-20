@@ -664,12 +664,12 @@ var masterFMGC = maketimer(0.2, func {
 		}
 	} elsif (FMGCInternal.phase == 3) {
 		if (FMGCInternal.crzFl >= 200) {
-			if ((flightPlanController.arrivalDist <= 200 or altSel < 20000)) {
+			if ((flightPlanController.arrivalDist.getValue() <= 200 or altSel < 20000)) {
 				newphase = 4;
 				systems.PNEU.pressMode.setValue("DE");
 			}
 		} else {
-			if ((flightPlanController.arrivalDist <= 200 and altSel < (FMGCInternal.crzFl * 100))) { # todo - not sure about crzFl condition, investigate what happens!
+			if ((flightPlanController.arrivalDist.getValue() <= 200 and altSel < (FMGCInternal.crzFl * 100))) { # todo - not sure about crzFl condition, investigate what happens!
 				newphase = 4;
 				systems.PNEU.pressMode.setValue("DE");
 			}

@@ -134,7 +134,7 @@ var A320GPSDeleagte = {
     {
         if (!me.flightplan.active)
             return;
-		flightPlanController.autoSequencing();
+		#flightPlanController.autoSequencing();
         var mode = me._modeProp.getValue();
         if (mode == 'dto') {
             # direct-to is done, check if we should resume the following leg
