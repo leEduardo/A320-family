@@ -58,7 +58,6 @@ var mach_sel = 0;
 var srsSPD = 0;
 var mach_switchover = 0;
 var mng_alt_spd_cmd = 0;
-var decel = 0;
 var mng_alt_spd = 0;
 var mng_alt_mach = 0;
 var altsel = 0;
@@ -698,7 +697,7 @@ var masterFMGC = maketimer(0.2, func {
 		courseDistanceDecel = courseAndDistance(flightPlanController.decelPoint.lat, flightPlanController.decelPoint.lon);
 		if (flightPlanController.num[2].getValue() > 0 and fmgc.flightPlanController.active.getBoolValue() and flightPlanController.decelPoint != nil and (courseDistanceDecel[1] <= 5 and (math.abs(courseDistanceDecel[0] - pts.Orientation.heading.getValue()) >= 90 and xtrkError <= 5) or courseDistanceDecel[1] <= 0.1) and (modelat == "NAV" or modelat == "LOC" or modelat == "LOC*") and pts.Position.gearAglFt.getValue() < 9500) {
 			FMGCInternal.decel = 1;
-		} elsif (FMGCInternal.decel and (FMGCInternal.phase == 4 == 0 or FMGCInternal.phase == 4 == 6)) {
+		} elsif (FMGCInternal.decel and (FMGCInternal.phase == 0 or FMGCInternal.phase == 6)) {
 			FMGCInternal.decel = 0;
 		}
 	} else {
