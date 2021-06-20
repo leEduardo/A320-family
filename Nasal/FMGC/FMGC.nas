@@ -675,7 +675,7 @@ var masterFMGC = maketimer(0.2, func {
 			}
 		}
 	} elsif (FMGCInternal.phase == 4) {
-		if (getprop("/FMGC/internal/decel")) {
+		if (FMGCInternal.decel) {
 			newphase = 5;
 		}
 		elsif (altSel == (FMGCInternal.crzFl * 100)) {  # back to CRZ state
