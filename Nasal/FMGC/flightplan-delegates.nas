@@ -154,10 +154,10 @@ var A320GPSDeleagte = {
         } else if (mode == 'leg') {
             # standard leq sequencing
             var nextIndex = me.flightplan.current + 1;
-			#if (nextIndex < me.flightplan.numWaypoints() and me.flightplan.nextWP().id == '(DECEL)') {
-			#	nextIndex += 1;
-            #   logprint(LOG_INFO, "default GPS reached DECEL, going to next waypoint");
-			#} 
+			if (nextIndex < me.flightplan.numWaypoints() and me.flightplan.nextWP().id == '(DECEL)') {
+				nextIndex += 1;
+               logprint(LOG_INFO, "default GPS reached DECEL, going to next waypoint");
+			} 
 			
 			if (nextIndex >= me.flightplan.numWaypoints()) {
                 logprint(LOG_INFO, "default GPS sequencing, finishing flightplan");

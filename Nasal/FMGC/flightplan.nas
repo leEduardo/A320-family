@@ -716,14 +716,12 @@ var flightPlanController = {
 			}
 		}
 		
-		#me.dist = (me.flightplans[n].getWP(me.arrivalIndex[n]).distance_along_route - me.flightplans[n].getWP(me.indexDecel).distance_along_route) + 7;
-		
 		me.dist = me.flightplans[n].getWP(me.indexDecel).leg_distance - 7;
 		if (me.dist < 0) {
 			me.dist = 0.1;
 		}
-		print("Inserting " ~ me.dist ~ " miles after " ~ me.flightplans[n].getWP(me.indexDecel - 1).id);
 		me.decelPoint = me.flightplans[n].pathGeod(me.indexDecel - 1, me.dist);
+		
 		if (n == 2) {
 			setprop("/instrumentation/nd/symbols/decel/latitude-deg", me.decelPoint.lat); 
 			setprop("/instrumentation/nd/symbols/decel/longitude-deg", me.decelPoint.lon);
@@ -743,6 +741,7 @@ var flightPlanController = {
 
 		# todo create waypoint, insert to flightplan, as non-sequence one (gets skipped in sequencing code
 		me.insertDecel(n,{lat: me.decelPoint.lat, lon: me.decelPoint.lon}, me.indexTemp);
+		print("Inserted DECEL at index " ~ me.indexTemp);
 		me.flightPlanChanged(n,0);
 	},
 	
