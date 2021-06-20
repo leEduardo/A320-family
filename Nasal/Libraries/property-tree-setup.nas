@@ -4,6 +4,13 @@
 # Anything that says Temp is set by another file to avoid multiple getValue calls
 # Usage Example: pts.Class.SubClass.node.getValue()
 
+var Autopilot = {
+	Settings: {
+		headingBugDeg: props.globals.getNode("/autopilot/settings/heading-bug-deg",1),
+		targetAltitudeFt: props.globals.getNode("/autopilot/settings/target-altitude-ft",1),
+	},
+};
+
 var Accelerations = {
 	pilotGDamped: props.globals.getNode("/accelerations/pilot-gdamped"),
 };
@@ -196,6 +203,7 @@ var Instrumentation = {
 		windSpeed: props.globals.getNode("/instrumentation/pfd/wind-speed"),
 	},
 	TCAS: {
+		servicable: props.globals.getNode("/instrumentation/tcas/serviceable"),
 		Inputs: {
 			mode: props.globals.getNode("/instrumentation/tcas/inputs/mode"),
 		},
@@ -221,6 +229,7 @@ var Position = {
 
 var Sim = {
 	aero: props.globals.getNode("/sim/aero"),
+	aircraft: props.globals.getNode("/sim/aircraft"),
 	CurrentView: {
 		fieldOfView: props.globals.getNode("/sim/current-view/field-of-view", 1),
 		headingOffsetDeg: props.globals.getNode("/sim/current-view/heading-offset-deg", 1),
@@ -236,6 +245,7 @@ var Sim = {
 		zOffsetMaxM: props.globals.getNode("/sim/current-view/z-offset-max-m", 1),
 		zOffsetMinM: props.globals.getNode("/sim/current-view/z-offset-min-m", 1),
 	},
+	fgHome: props.globals.getNode("/sim/fg-home"),
 	Input: {
 		Selected: {
 			engine: [props.globals.getNode("/sim/input/selected/engine[0]", 1),props.globals.getNode("/sim/input/selected/engine[1]", 1)],
@@ -273,6 +283,14 @@ var Sim = {
 };
 
 var Systems = {
+	Navigation: {
+		ADR: {
+			Output: {
+				overspeed: props.globals.getNode("/systems/navigation/adr/output/overspeed"),
+				underspeed: props.globals.getNode("/systems/navigation/adr/output/underspeed"),
+			},
+		},
+	},
 	Thrust: {
 		engOut: props.globals.getNode("/systems/thrust/eng-out"),
 		state: [props.globals.getNode("/systems/thrust/state1"), props.globals.getNode("/systems/thrust/state2")],
