@@ -1,11 +1,11 @@
-<!-- Airbus A320 ADR -->
+<?xml version="1.0"?>
 
+<!-- Airbus A320 ADR -->
 <!-- Copyright (c) 2019 Jonathan Redpath -->
 
 <system name="A320: ADR">
 
     <channel name="ADR Inputs" execrate="2">
-		
 		<fcs_function name="aero/alpha-deg-corrected">
 			<function>
 				<product>
@@ -23,7 +23,7 @@
 		</fcs_function>
 		
 		<sensor name="/systems/navigation/probes/aoa-1">
-			<input>aero/alpha-deg-corrected</input>
+			<input>aero/alpha-deg-norm</input>
 			<quantization name="/systems/navigation/adr/output/aoa-1">
 				<bits>12</bits>
 				<min>-180</min>
@@ -32,7 +32,7 @@
 		</sensor>
 		
 		<sensor name="/systems/navigation/probes/aoa-2">
-			<input>aero/alpha-deg-corrected</input>
+			<input>aero/alpha-deg-norm</input>
 			<quantization name="/systems/navigation/adr/output/aoa-2">
 				<bits>12</bits>
 				<min>-180</min>
@@ -41,7 +41,7 @@
 		</sensor>
 		
 		<sensor name="/systems/navigation/probes/aoa-3">
-			<input>aero/alpha-deg-corrected</input>
+			<input>aero/alpha-deg-norm</input>
 			<quantization name="/systems/navigation/adr/output/aoa-3">
 				<bits>12</bits>
 				<min>-180</min>

@@ -1,7 +1,7 @@
 # A3XX Buttons
 # Joshua Davidson (Octal450)
 
-# Copyright (c) 2020 Josh Davidson (Octal450)
+# Copyright (c) 2021 Josh Davidson (Octal450)
 
 var OnLt = props.globals.getNode("/controls/switches/emerCallLtO");
 var CallLt = props.globals.getNode("/controls/switches/emerCallLtC");
@@ -14,8 +14,6 @@ var cvr_tone = props.globals.getNode("/controls/CVR/tone");
 var variousReset = func() {
 	setprop("/modes/cpt-du-xfr", 0);
 	setprop("/modes/fo-du-xfr", 0);
-	setprop("/controls/fadec/n1mode1", 0);
-	setprop("/controls/fadec/n1mode2", 0);
 	setprop("/instrumentation/mk-viii/serviceable", 1);
 	setprop("/instrumentation/mk-viii/inputs/discretes/ta-tcf-inhibit", 0);
 	setprop("/instrumentation/mk-viii/inputs/discretes/gpws-inhibit", 0);

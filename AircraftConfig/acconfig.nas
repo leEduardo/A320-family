@@ -1,7 +1,7 @@
 # Aircraft Config Center
 # Joshua Davidson (Octal450)
 
-# Copyright (c) 2020 Josh Davidson (Octal450)
+# Copyright (c) 2021 Josh Davidson (Octal450)
 
 var spinning = maketimer(0.05, func {
 	var spinning = getprop("/systems/acconfig/spinning");
@@ -59,8 +59,10 @@ setprop("/systems/acconfig/options/wxr-server", "noaa");
 setprop("/systems/acconfig/options/welcome-skip", 0);
 setprop("/systems/acconfig/options/no-rendering-warn", 0);
 setprop("/systems/acconfig/options/save-state", 0);
+setprop("/systems/acconfig/options/hide-canvas-outside", 0);
 setprop("/systems/acconfig/options/seperate-tiller-axis", 0);
 setprop("/systems/acconfig/options/nd-rate", 1);
+setprop("/systems/acconfig/options/dcdu-rate", 1);
 setprop("/systems/acconfig/options/autopush/show-route", 1);
 setprop("/systems/acconfig/options/autopush/show-wingtip", 1);
 var main_dlg = gui.Dialog.new("/sim/gui/dialogs/acconfig/main/dialog", "Aircraft/A320-family/AircraftConfig/main.xml");
@@ -151,7 +153,7 @@ setlistener("/sim/signals/fdm-initialized", func {
 		update_dlg.open();
 		print("System: The A320-family is out of date!");
 	} 
-	mismatch_chk();
+	#mismatch_chk();
 	readSettings();
 	if (getprop("/systems/acconfig/out-of-date") != 1 and getprop("/systems/acconfig/options/revision") < current_revision and getprop("/systems/acconfig/mismatch-code") == "0x000") {
 		updated_dlg.open();
@@ -224,6 +226,7 @@ var readSettings = func {
 	setprop("/FMGC/simbrief-username", getprop("/systems/acconfig/options/simbrief-username"));
 	setprop("/systems/atsu/atis-server", getprop("/systems/acconfig/options/atis-server"));
 	setprop("/systems/atsu/wxr-server", getprop("/systems/acconfig/options/wxr-server"));
+	setprop("/options/hide-canvas-outside", getprop("/systems/acconfig/options/hide-canvas-outside"));
 }
 
 var writeSettings = func {
@@ -238,6 +241,7 @@ var writeSettings = func {
 	setprop("/systems/acconfig/options/simbrief-username", getprop("/FMGC/simbrief-username"));
 	setprop("/systems/acconfig/options/atis-server", getprop("/systems/atsu/atis-server"));
 	setprop("/systems/acconfig/options/wxr-server", getprop("/systems/atsu/wxr-server"));
+	setprop("/systems/acconfig/options/hide-canvas-outside", getprop("/options/hide-canvas-outside"));
 	io.write_properties(pts.Sim.fgHome.getValue() ~ "/Export/A320-family-config.xml", "/systems/acconfig/options");
 }
 
@@ -529,6 +533,7 @@ var taxi_d = func {
 	setprop("/controls/engines/engine-start-switch", 1);
 	setprop("/controls/apu/master", 0);
 	setprop("/controls/pneumatics/switches/apu", 0);
+	setprop("/controls/gear/brake-parking", 0);
 	setprop("/controls/gear/brake-left", 0);
 	setprop("/controls/gear/brake-right", 0);
 	setprop("/systems/acconfig/autoconfig-running", 0);
@@ -563,3 +568,9 @@ var takeoff = func {
 		});
 	}
 }
+
+setlistener("/systems/start-up-on-start", func() {
+	if (getprop("/systems/start-up-on-start")) {
+		settimer(takeoff, 5);
+	}
+}, 1, 0);

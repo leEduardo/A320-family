@@ -1,5 +1,5 @@
 # A3XX FMGC/Autoflight
-# Copyright (c) 2020 Josh Davidson (Octal450), Jonathan Redpath (legoboyvdlp), and Matthew Maring (mattmaring)
+# Copyright (c) 2021 Josh Davidson (Octal450), Jonathan Redpath (legoboyvdlp), and Matthew Maring (mattmaring)
 
 ##################
 # Init Functions #
@@ -108,8 +108,6 @@ var FMGCinit = func {
 }
 
 var FMGCInternal = {
-	# phase logic
-	phase: 0,
 	minspeed: 0,
 	maxspeed: 0,
 	takeoffState: 0,
@@ -117,7 +115,7 @@ var FMGCInternal = {
 	# speeds
 	alpha_prot: 0,
 	alpha_max: 0,
-	vmo_mmo: 0,
+	vmo_mmo: props.globals.getNode("/FMGC/internal/vmo-mmo"),
 	vsw: 0,
 	vls_min: 0,
 	clean: 0,
@@ -256,8 +254,6 @@ var postInit = func() {
 
 var FMGCNodes = {
 	costIndex: props.globals.initNode("/FMGC/internal/cost-index", 0, "DOUBLE"),
-	flexSet: props.globals.initNode("/FMGC/internal/flex-set", 0, "BOOL"),
-	flexTemp: props.globals.initNode("/FMGC/internal/flex", 0, "INT"),
 	mngSpdAlt: props.globals.getNode("/FMGC/internal/mng-alt-spd"),
 	mngMachAlt: props.globals.getNode("/FMGC/internal/mng-alt-mach"),
 	toFromSet: props.globals.initNode("/FMGC/internal/tofrom-set", 0, "BOOL"),
@@ -619,14 +615,14 @@ var masterFMGC = maketimer(0.2, func {
 	n1_right = pts.Engines.Engine.n1Actual[1].getValue();
 	modelat = Modes.PFD.FMA.rollMode.getValue();
 	mode = Modes.PFD.FMA.pitchMode.getValue();
-	gs = pts.Velocities.groundspeed.getValue();
+	gs = pts.Velocities.groundspeedKt.getValue();
 	alt = pts.Instrumentation.Altimeter.indicatedFt.getValue();
 	# cruiseft = FMGCInternal.crzFt;
 	# cruiseft_b = FMGCInternal.crzFt - 200;
-	state1 = pts.Systems.Thrust.state[0].getValue();
-	state2 = pts.Systems.Thrust.state[1].getValue();
-	accel_agl_ft = Setting.reducAglFt.getValue();
-	gear0 = pts.Gear.wow[0].getValue();
+	state1 = systems.FADEC.detentText[0].getValue();
+	state2 = systems.FADEC.detentText[1].getValue();
+	accel_agl_ft = Settings.reducAglFt.getValue();
+	gear0 = pts.Gear.wow[0].getBoolValue();
 	altSel = Input.alt.getValue();
 	
 	newphase = FMGCInternal.phase;
@@ -686,14 +682,13 @@ var masterFMGC = maketimer(0.2, func {
 		setprop("/FMGC/internal/decel", 0);
 	}
 	
-	
 	tempOverspeed = systems.ADIRS.overspeedVFE.getValue();
 	if (tempOverspeed != 1024) {
 		FMGCInternal.maxspeed = tempOverspeed - 4;
 	} elsif (pts.Gear.position[0].getValue() != 0 or pts.Gear.position[1].getValue() != 0 or pts.Gear.position[2].getValue() != 0) {
 		FMGCInternal.maxspeed = 284;
 	} else {
-		FMGCInternal.maxspeed = fmgc.FMGCInternal.vmo_mmo;
+		FMGCInternal.maxspeed = fmgc.FMGCInternal.vmo_mmo.getValue();
 	}
 	
 	if (newphase != FMGCInternal.phase) {  # phase changed

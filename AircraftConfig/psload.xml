@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2021 Josh Davidson (Octal450) -->
 
 <!-- A3XX Aircraft Config Dialog -->
 
@@ -17,9 +17,9 @@
         </text>
 		<button>
 			<halign>right</halign>
-			<legend>Abort</legend>
+			<legend>Cancel</legend>
 			<pref-width>60</pref-width>
-			<key>Esc</key>
+			<pref-height>20</pref-height>
 			<binding>
 				<command>nasal</command>
 				<script>acconfig.abortPanelStates();</script>
